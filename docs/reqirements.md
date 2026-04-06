@@ -40,7 +40,12 @@ the `clean_data` variable containing the following columns:
 - `"IsHoliday"`
 - `"Weekly_Sales"`
 - `"CPI"`
-- "`"Unemployment"`"
+- `"Unemployment"`
+
+Data manipulations:
+
+- Impute missing numerical values using the mean
+- Keep only high-performing weeks > 10000
 
 After merging and cleaning the data, you will have to analyze monthly sales of Walmart and store the results of your
 analysis as the `agg_data` variable that should look like:
