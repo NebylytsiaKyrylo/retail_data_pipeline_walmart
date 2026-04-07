@@ -30,6 +30,7 @@ The project relies on a modern data stack running locally:
 - **Pandas & PyArrow**: Used for in-memory data manipulation and high-performance Parquet file reading.
 - **SQLAlchemy**: Serves as the database connection engine.
 - **Poetry**: Manages dependencies and virtual environments reliably.
+- **Pytest & Unittest**: Automated testing framework for Python.
 
 ## 4. Data Catalog
 
@@ -64,14 +65,14 @@ Contains complementary demographic and economic data.
 
 The pipeline is split into dedicated modules, each fully typed and logged:
 
-| Phase           | Module / Function                               | Focus                                                                                                                                                                                                                 |
-|:----------------|:------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Extract**     | `extract.py` — `extract()`                      | Connects to Postgres via SQLAlchemy, reads the Parquet file via PyArrow, and performs an `INNER JOIN` on the `index` column.                                                                                          |
-| **Transform**   | `transform.py` — `transform()`                  | Cleans data: converts dates, extracts the `Month`, imputes missing numerical values (`CPI`, `Weekly_Sales`, `Unemployment`) using the column mean, enforces the final schema, and filters for `Weekly_Sales > 10000`. |
-| **Aggregate**   | `aggregate.py` — `avg_weekly_sales_per_month()` | Groups the cleaned data by `Month` and calculates the average `Weekly_Sales`.                                                                                                                                         |
-| **Load**        | `load.py` — `load()`                            | Saves the processed DataFrames into `clean_data.csv` and `agg_data.csv` locally.                                                                                                                                      |
-| **Validate**    | `validation.py` — `validation()`                | Confirms successful file creation using the `os` module.                                                                                                                                                              |
-| **Orchestrate** | `main.py`                                       | Entry point that chains all phases in order.                                                                                                                                                                          |
+| Phase           | Module / Function                                        | Focus                                                                                                                                                                                                                 |
+|:----------------|:---------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Extract**     | [extract.py](pipeline/extract.py) — `extract()`          | Connects to Postgres via SQLAlchemy, reads the Parquet file via PyArrow, and performs an `INNER JOIN` on the `index` column.                                                                                          |
+| **Transform**   | [transform.py](pipeline/transform.py) — `transform()`    | Cleans data: converts dates, extracts the `Month`, imputes missing numerical values (`CPI`, `Weekly_Sales`, `Unemployment`) using the column mean, enforces the final schema, and filters for `Weekly_Sales > 10000`. |
+| **Aggregate**   | [aggregate.py](pipeline/aggregate.py) — `aggregate()`    | Groups the cleaned data by `Month` and calculates the average `Weekly_Sales`.                                                                                                                                         |
+| **Load**        | [load.py](pipeline/load.py) — `load()`                   | Saves the processed DataFrames into `clean_data.csv` and `agg_data.csv` locally.                                                                                                                                      |
+| **Validate**    | [validation.py](pipeline/validation.py) — `validation()` | Confirms successful file creation using the `os` module.                                                                                                                                                              |
+| **Orchestrate** | [main.py](pipeline/main.py)                              | Entry point that chains all phases in order.                                                                                                                                                                          |
 
 ## 6. Project Structure
 
